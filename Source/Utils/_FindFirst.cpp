@@ -2,7 +2,9 @@
 * Original file by the_viking, fixed by R√¥mulo Fernandes, fixed by Emmanuel Nars
 * Should emulate windows finddata structure
 */
-#if (defined(__GNUC__) || defined(__GCCXML__)) && !defined(_WIN32)
+
+
+#if (defined(__GNUC__) || defined(__ARMCC_VERSION) || defined(__GCCXML__) || defined(__S3E__) ) && !defined(__WIN)
 
 #include "_FindFirst.h"
 #include "DS_List.h"
@@ -105,7 +107,7 @@ int _findnext(intptr_t h, _finddata_t *f)
 /**
  * _findclose - equivalent
  */
-int _findclose(long h)
+int _findclose(intptr_t h)
 {
     if (h == -1) return 0;
 

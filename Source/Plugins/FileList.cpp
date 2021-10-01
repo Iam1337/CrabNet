@@ -17,7 +17,7 @@
 #include "RakAssert.h"
 
 #if defined(ANDROID)
-#include <asm/io.h>
+#include <sys/uio.h>
 #elif defined(_WIN32) || defined(__CYGWIN__)
 #include <io.h>
 #endif
@@ -58,7 +58,7 @@ using namespace RakNet;
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/stat.h>
-#include "../Utils/_FindFirst.h"
+#include "../Utils/_FindFirst.h" 
 #include <stdint.h> //defines intptr_t
 #endif
 
