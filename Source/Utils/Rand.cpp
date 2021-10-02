@@ -219,7 +219,7 @@ float frandomMT(unsigned int *state, unsigned int *&next, int &left)
 
 RakNetRandom::RakNetRandom()
 {
-    left =- 1;
+    left = -1;
 }
 
 void RakNetRandom::SeedMT(unsigned int seed)
