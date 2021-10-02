@@ -82,7 +82,7 @@ The developer tested this method on Arch Linux under WSL2.
  * [CMake](https://cmake.org/) >= 3.15
 
 **Terminal:**
-```
+```zsh
 # Create build directory
 mkdir build-linux
 cd build-linux
