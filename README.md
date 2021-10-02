@@ -1,6 +1,7 @@
 # CrabNet - networking engine for game programmers
 
 [![⚙ Build And Release](https://github.com/Iam1337/CrabNet/actions/workflows/ci.yml/badge.svg)](https://github.com/Iam1337/CrabNet/actions/workflows/ci.yml)
+[![](https://img.shields.io/badge/license-BSD-green.svg)](https://github.com/Iam1337/CrabNet/blob/master/LICENSE)
 
 ### Table of Contents
 - [Introduction](#introduction)
