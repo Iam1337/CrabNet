@@ -81,6 +81,7 @@ The developer tested this method on Arch Linux under WSL2.
 **Required:**
  * [CMake](https://cmake.org/) >= 3.15
 
+**Terminal:**
 ```
 # Create build directory
 mkdir build-linux
