@@ -25,7 +25,9 @@ ENDIF (WIN32 AND NOT UNIX)
 if (WIN32 AND NOT UNIX)
     set(CRABNET_LIBRARY_LIBS ws2_32.lib)
 else (WIN32 AND NOT UNIX)
-    #set(CRABNET_LIBRARY_LIBS pthread)
+    if (NOT ANDROID)
+        set(CRABNET_LIBRARY_LIBS pthread)
+    endif (NOT ANDROID)
 endif (WIN32 AND NOT UNIX)
 
 # Old add libraries.
