@@ -2,6 +2,14 @@
 
 [![⚙ Build And Release](https://github.com/Iam1337/CrabNet/actions/workflows/ci.yml/badge.svg)](https://github.com/Iam1337/CrabNet/actions/workflows/ci.yml)
 
+### Table of Contents
+- [Introduction](#introduction)
+- [Build](#build)
+- - [Windows](#windows)
+- - [Android (on Windows)](#android-on-windows)
+- - [Linux](#linux)
+
+
 ## Introduction
 Fork based on  [CrabNet](https://github.com/TES3MP/CrabNet). Made to work with [StolenNetwork](https://github.com/Iam1337/StolenNetwork) framework, the main difference is the presence of a simplified wrapper.
 
