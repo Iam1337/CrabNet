@@ -6,7 +6,12 @@
     ["@semantic-release/changelog", { "preset": "angular" }],
     ["@semantic-release/github", {
       "assets": [
-        {"path": "../prebuild.zip", "label": "prebuild.zip"}
+        {"path": "RakNet.x64.dll"},
+        {"path": "RakNet.x86.dll"},
+        {"path": "libRakNet.x64.so"},
+        {"path": "libRakNet.x86.so"},
+        {"path": "libRakNet.arm64.so"},
+        {"path": "libRakNet.arm.so"}
       ]
     }]
   ]

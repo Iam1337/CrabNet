@@ -5,16 +5,95 @@ on:
     - master
 
 jobs:
+
   build-win:
-    name: ⚙ Build And Release
+    name: ⚙ Build - Windows
     runs-on: windows-latest
 
     steps:
 
     - name: Checkout
       uses: actions/checkout@v2
+
+
+    - name: CMake Win64
+      uses: lukka/run-cmake@v3
       with:
-        submodules: 'recursive'
+        buildDirectory: '${{ github.workspace }}/win64'
+        buildWithCMakeArgs: --config Release
+        cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
+        cmakeGenerator: VS16Win64 
+        cmakeBuildType: Release   
+        cmakeAppendedArgs: '-DCRABNET_ENABLE_STATIC=OFF'
+
+
+    - name: CMake Win32
+      uses: lukka/run-cmake@v3
+      with:
+        buildDirectory: '${{ github.workspace }}/win32'
+        buildWithCMakeArgs: --config Release
+        cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
+        cmakeGenerator: VS16Win32 
+        cmakeBuildType: Release   
+        cmakeAppendedArgs: '-DCRABNET_ENABLE_STATIC=OFF'
+
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: windows-release
+        path: |
+          ${{ github.workspace }}\win64\lib\Release\RakNet.dll
+          ${{ github.workspace }}\win32\lib\Release\RakNet.dll
+
+
+  build-linux:
+    name: ⚙ Build - Linux
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+
+    - name: CMake Linux 64-bit
+      uses: lukka/run-cmake@v3
+      with:
+        buildDirectory: '${{ github.workspace }}/linux64'
+        buildWithCMakeArgs: --config Release
+        cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
+        cmakeBuildType: Release
+        cmakeAppendedArgs: '-DCRABNET_ENABLE_STATIC=OFF -DCMAKE_C_FLAGS=-m64 -DCMAKE_CXX_FLAGS=-m64'
+
+
+    #- name: CMake Linux 32-bit
+    #  uses: lukka/run-cmake@v3
+    #  with:
+    #    buildDirectory: '${{ github.workspace }}/linux32'
+    #    buildWithCMakeArgs: --config Release
+    #    cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
+    #    cmakeBuildType: Release
+    #    cmakeAppendedArgs: '-DCRABNET_ENABLE_STATIC=OFF -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32 -DCMAKE_C_COMPILER_WORKS=1 -DCMAKE_CXX_COMPILER_WORKS=1'
+
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-release
+        path: |
+          ${{ github.workspace }}/linux64/lib/libRakNet.so
+          ${{ github.workspace }}/linux32/lib/libRakNet.so
+
+
+  build-android:
+    name: ⚙ Build - Android
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
 
 
     - name: Setup Android NDK
@@ -28,77 +107,71 @@ jobs:
     - name: CMake Android arm64-v8a (Oculus Quest)
       uses: lukka/run-cmake@v3
       with:
-        buildDirectory: '${{ runner.workspace }}/android-arm64-v8a'
+        buildDirectory: '${{ github.workspace }}/android-arm64-v8a'
         buildWithCMakeArgs: --config Release
         cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
         cmakeBuildType: Release   
-        cmakeAppendedArgs: '-G Ninja -DCRABNET_ENABLE_STATIC=OFF -DCMAKE_TOOLCHAIN_FILE=${{ steps.setup-ndk.outputs.ndk-path }}/build/cmake/android.toolchain.cmake -DANDROID_ABI=arm64-v8a -DANDROID_PLATFORM=23'
+        cmakeAppendedArgs: '-DCRABNET_ENABLE_STATIC=OFF -DCMAKE_TOOLCHAIN_FILE=${{ steps.setup-ndk.outputs.ndk-path }}/build/cmake/android.toolchain.cmake -DANDROID_ABI=arm64-v8a -DANDROID_PLATFORM=23'
 
 
-    # Required NDK r20b, not supported by Oculus Quest
-    #- name: CMake Android armeabi-v7a
-    #  uses: lukka/run-cmake@v3
-    #  with:
-    #    buildDirectory: '${{ runner.workspace }}/android-armeabi-v7a'
-    #    buildWithCMakeArgs: --config Release
-    #    cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
-    #    cmakeGenerator: Ninja 
-    #    cmakeBuildType: Release   
-    #    cmakeAppendedArgs: '-DCRABNET_ENABLE_STATIC=OFF -DCMAKE_TOOLCHAIN_FILE=${{ steps.setup-ndk.outputs.ndk-path }}/build/cmake/android.toolchain.cmake -DANDROID_ABI=armeabi-v7a -DANDROID_PLATFORM=23'
-
-
-    - name: CMake Win64
+    - name: CMake Android armeabi-v7a
       uses: lukka/run-cmake@v3
       with:
-        buildDirectory: '${{ runner.workspace }}/win64'
+        buildDirectory: '${{ github.workspace }}/android-armeabi-v7a'
         buildWithCMakeArgs: --config Release
         cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
-        cmakeGenerator: VS16Win64 
         cmakeBuildType: Release   
-        cmakeAppendedArgs: '-DCRABNET_ENABLE_STATIC=OFF'
+        cmakeAppendedArgs: '-DCRABNET_ENABLE_STATIC=OFF -DCMAKE_TOOLCHAIN_FILE=${{ steps.setup-ndk.outputs.ndk-path }}/build/cmake/android.toolchain.cmake -DANDROID_ABI=armeabi-v7a -DANDROID_PLATFORM=23'
 
 
-    # Not required
-    #- name: CMake Win32
-    #  uses: lukka/run-cmake@v3
-    #  with:
-    #    buildDirectory: '${{ runner.workspace }}/win32'
-    #    buildWithCMakeArgs: --config Release
-    #    cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
-    #    cmakeGenerator: VS16Win32 
-    #    cmakeBuildType: Release   
-    #    cmakeAppendedArgs: '-DCRABNET_ENABLE_STATIC=OFF'
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: android-release
+        path: |
+          ${{ github.workspace }}/android-arm64-v8a/lib/libRakNet.so
+          ${{ github.workspace }}/android-armeabi-v7a/lib/libRakNet.so
 
-    - name: Build Archive
+
+  release:
+    needs: [build-win, build-linux, build-android]
+
+    name: 🚀 Release
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Download Artifacts
+      uses: actions/download-artifact@v2
+
+    - name: Prepare Artifacts
       run: |
-        $archiveDirectory = "${{ runner.workspace }}\prebuild\"
-        $archive = "${{ runner.workspace }}\prebuild.zip"
-
-        if (-not(Test-Path -Path $archiveDirectory))
-        {
-            $null = New-Item -ItemType Directory -Path $archiveDirectory
-        }
-
-        $array = @(
-            @{Path='${{ runner.workspace }}\win32\lib\Release\RakNet.dll';Name='RakNet.win32.dll'}
-            @{Path='${{ runner.workspace }}\win64\lib\Release\RakNet.dll';Name='RakNet.win64.dll'}
-            @{Path='${{ runner.workspace }}\android-armeabi-v7a\lib\libRakNet.so';Name='libRakNet.android-armeabi-v7a.so'}
-            @{Path='${{ runner.workspace }}\android-arm64-v8a\lib\libRakNet.so';Name='libRakNet.android-arm64-v8a.so'}
+        paths=(
+        '${{ github.workspace }}/windows-release/win64/lib/Release/RakNet.dll'
+        '${{ github.workspace }}/windows-release/win32/lib/Release/RakNet.dll'
+        '${{ github.workspace }}/linux-release/linux64/lib/libRakNet.so'
+        '${{ github.workspace }}/linux-release/linux32/lib/libRakNet.so'
+        '${{ github.workspace }}/android-release/android-arm64-v8a/lib/libRakNet.so'
+        '${{ github.workspace }}/android-release/android-armeabi-v7a/lib/libRakNet.so'
         )
 
-        Foreach ($item in $array) 
-        {
-            if (Test-Path -Path $item.Path -PathType Leaf) 
-            {
-                $destination = -join($archiveDirectory, $item.Name)
+        names=(
+        '${{ github.workspace }}/RakNet.x64.dll'
+        '${{ github.workspace }}/RakNet.x86.dll'
+        '${{ github.workspace }}/libRakNet.x64.so'
+        '${{ github.workspace }}/libRakNet.x86.so'
+        '${{ github.workspace }}/libRakNet.arm64.so'
+        '${{ github.workspace }}/libRakNet.arm.so'
+        )
 
-                Move-Item -Path $item.Path -Destination $destination
-            } 
-        }
-
-        $mask = -join($archiveDirectory, "*") 
-        Compress-Archive -Path $mask -CompressionLevel "Fastest" -DestinationPath $archive
-
+        for (( i = 0; i < ${#paths[@]}; ++i )); do
+          if [ -f "${paths[i]}" ]; then
+            mv ${paths[i]} ${names[i]}
+          fi
+        done
 
     - name: Release
       uses: cycjimmy/semantic-release-action@v2
