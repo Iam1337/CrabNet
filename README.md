@@ -8,6 +8,7 @@
 - [Build](#build)
 - - [Windows](#windows)
 - - [Android (on Windows)](#android-on-windows)
+- - [Android (on Linux)](#android-on-linux)
 - - [Linux](#linux)
 
 
@@ -49,7 +50,7 @@ cmake --build . --config Release --clean-first
 ```
 
 ### Android (on Windows)
-This example shows how to build release arm64-v8a libraries for Android. Best for building libs for Oculus Quest and Oculus Quest 2.  
+This example shows how to build release arm64-v8a libraries for Android on Windows platform. Best for building libs for Oculus Quest and Oculus Quest 2.  
 
 **Required:**
  * [Android NDK](https://developer.android.com/ndk/downloads) (tested on r23)
@@ -69,6 +70,32 @@ Expand-Archive -Path "android-ndk.zip" -DestinationPath .
 # Setup project
 # If you skipped the steps to download the Android NDK, then you need to replace the path in CMAKE_TOOLCHAIN_FILE with your own. 
 cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE="android-ndk-r23/build/cmake/android.toolchain.cmake" -DANDROID_ABI=arm64-v8a -DANDROID_PLATFORM=23 ..
+
+# Build library
+cmake --build . --config Release --clean-first
+```
+
+### Android (on Linux)
+This example shows how to build release arm64-v8a libraries for Android on Linux platform. 
+
+**Required:**
+ * [Android NDK](https://developer.android.com/ndk/downloads) (tested on r23)
+ * [CMake](https://cmake.org/) >= 3.15
+
+**PowerShell:**
+```powershell
+# Create build directory
+mkdir build-android
+cd build-android
+
+# Download and unpack Android NDK
+# You can skip these steps if you already have Android NDK
+wget https://dl.google.com/android/repository/android-ndk-r23-linux.zip
+unzip android-ndk-r23-linux.zip
+
+# Setup project
+# If you skipped the steps to download the Android NDK, then you need to replace the path in CMAKE_TOOLCHAIN_FILE with your own. 
+cmake -DCMAKE_TOOLCHAIN_FILE="android-ndk-r23/build/cmake/android.toolchain.cmake" -DANDROID_ABI=arm64-v8a -DANDROID_PLATFORM=23 ..
 
 # Build library
 cmake --build . --config Release --clean-first
