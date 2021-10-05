@@ -10,7 +10,7 @@
  */
 
 /// \file
-///
+/// 
 
 #include "BitStream.h"
 #include <stdio.h>
