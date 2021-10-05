@@ -82,7 +82,7 @@ This example shows how to build release arm64-v8a libraries for Android on Linux
  * [Android NDK](https://developer.android.com/ndk/downloads) (tested on r23)
  * [CMake](https://cmake.org/) >= 3.15
 
-**PowerShell:**
+**Terminal:**
 ```powershell
 # Create build directory
 mkdir build-android
