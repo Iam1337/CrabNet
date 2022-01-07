@@ -2,6 +2,7 @@
 
 [![⚙ Build And Release](https://github.com/Iam1337/CrabNet/actions/workflows/ci.yml/badge.svg)](https://github.com/Iam1337/CrabNet/actions/workflows/ci.yml)
 [![](https://img.shields.io/badge/license-BSD-green.svg)](https://github.com/Iam1337/CrabNet/blob/master/LICENSE)
+[![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 
 ### Table of Contents
 - [Introduction](#introduction)
